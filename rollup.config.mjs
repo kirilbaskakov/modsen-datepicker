@@ -4,6 +4,9 @@ import typescript from '@rollup/plugin-typescript';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
+import alias from '@rollup/plugin-alias';
+import path from 'path';
+import image from '@rollup/plugin-image';
 
 export default {
   input: 'src/index.ts',
@@ -16,10 +19,14 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
+    alias({
+      entries: [{ find: '@/', replacement: path.resolve('../../') }]
+    }),
     nodeResolve(),
     commonjs(),
     babel({ babelHelpers: 'bundled' }),
     typescript(),
+    image(),
     terser()
   ]
 };
