@@ -9,6 +9,7 @@ import ClearButton from '../ClearButton/ClearButton';
 import { mockedHolidays } from '@/constants/date';
 
 export interface DatePickerProps {
+  value?: Date | [Date, Date];
   onChange?: (date: Date | [Date, Date]) => void;
   format?: Format;
   showDayoffs?: boolean;
@@ -22,6 +23,7 @@ export interface DatePickerProps {
 }
 
 const DatePicker = ({
+  value,
   onChange,
   format = 'day',
   weekBegin = 'monday',
@@ -37,6 +39,7 @@ const DatePicker = ({
     <DatePickerStyled>
       <DatePickerProvider
         datepickerProps={{
+          value,
           onChange,
           format,
           weekBegin,

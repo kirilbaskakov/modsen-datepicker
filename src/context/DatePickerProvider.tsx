@@ -1,5 +1,5 @@
 import { DatePickerProps } from '../components/DatePicker/DatePicker';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { createContext } from 'react';
 
 export const DatePickerContext = createContext(null);
@@ -11,10 +11,31 @@ const DatePickerProvider = ({
   children: ReactNode;
   datepickerProps: DatePickerProps;
 }) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    datepickerProps.range
+      ? (datepickerProps.value[0] ?? new Date())
+      : (datepickerProps.value ?? new Date())
+  );
   const [selectedDate, setSelectedDate] = useState<
     Date | null | [null | Date, null | Date]
-  >(datepickerProps.range ? [null, null] : null);
+  >(
+    datepickerProps.range
+      ? (datepickerProps.value ?? [null, null])
+      : datepickerProps.value
+  );
+  useEffect(() => {
+    setDate(
+      datepickerProps.range
+        ? (datepickerProps.value[0] ?? new Date())
+        : (datepickerProps.value ?? new Date())
+    );
+    setSelectedDate(
+      datepickerProps.range
+        ? (datepickerProps.value ?? [null, null])
+        : datepickerProps.value
+    );
+  }, [datepickerProps.value]);
+
   const value = {
     date,
     setDate,

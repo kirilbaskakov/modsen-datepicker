@@ -26,29 +26,14 @@ const TableCellBase = styled.td`
   border-radius: 8px;
   text-align: center;
   vertical-align: middle;
-  // position: relative;
-
-  // &::after {
-  //   display: inline-block;
-  //   position: absolute;
-  //   top: 2px;
-  //   right: 1px;
-  //   content: '!';
-  //   font-size: 8px;
-  //   font-weight: 800;
-  //   background-color: red;
-  //   width: 10px;
-  //   height: 10px;
-  //   text-align: center;
-  //   border-radius: 50%;
-  //   color: white;
-  // }
 `;
 
-const TableCellVariants = {
+const TableCellVariants = props => ({
   primary: `
         background-color: #fff;
         color: #000;   
+
+        color: ${props.$isHoliday ? 'red' : '#000'};
 
         &:hover {
             background: #F1F1F1;
@@ -76,13 +61,12 @@ const TableCellVariants = {
     color: #2F80ED;
     background: #2F80ED1A;
   `
-};
+});
 export const TableCell = styled(TableCellBase)<{
-  $variant: keyof typeof TableCellVariants;
+  $variant: keyof ReturnType<typeof TableCellVariants>;
   $isHoliday: boolean;
 }>`
-  ${props => TableCellVariants[props.$variant]}// color: ${props =>
-    props.$isHoliday ? 'red' : '#000'};
+  ${props => TableCellVariants(props)[props.$variant]}
 `;
 
 export const TableBody = styled.tbody`
