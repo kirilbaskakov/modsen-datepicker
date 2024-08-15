@@ -5,7 +5,8 @@ import {
   TableCell,
   TableHeader,
   TableHeaderCell,
-  TableRow
+  TableRow,
+  Tooltip
 } from './styled';
 import generateWeekDays from '@/utils/generateWeekDays';
 import generateTableData from '@/utils/generateTableData';
@@ -24,14 +25,30 @@ const DateTable = () => {
     format,
     weekBegin,
     showDayoffs,
-    holidays
+    holidays,
+    onCellDoubleClick
   } = useContext(DatePickerContext);
   const minDate = new Date(min);
   const maxDate = new Date(max);
   const [hoveredDate, setHoveredDate] = useState(null);
 
+  const isHoliday = (date: Date): undefined | [Date, string] =>
+    holidays.find(
+      ([holidayDate]) =>
+        holidayDate.toLocaleDateString([], {
+          month: 'numeric',
+          day: 'numeric'
+        }) ===
+        date.toLocaleDateString([], {
+          month: 'numeric',
+          day: 'numeric'
+        })
+    );
   const onMouseEnter = (date: Date) => () => setHoveredDate(date);
 
+  const onDoubleClick = (date: Date) => () => {
+    if (onCellDoubleClick) onCellDoubleClick(date);
+  };
   const onCellClick = (date: Date) => () => {
     if (range) {
       if (selectedDate[0] && !selectedDate[1]) {
@@ -76,21 +93,13 @@ const DateTable = () => {
                   hoveredDate,
                   isDisabled
                 )}
-                $isHoliday={holidays.find(
-                  (holiday: Date) =>
-                    holiday.toLocaleDateString([], {
-                      month: 'numeric',
-                      day: 'numeric'
-                    }) ===
-                    date.toLocaleDateString([], {
-                      month: 'numeric',
-                      day: 'numeric'
-                    })
-                )}
+                $isHoliday={Boolean(isHoliday(date))}
                 onClick={onCellClick(date)}
+                onDoubleClick={onDoubleClick(date)}
                 onMouseEnter={onMouseEnter(date)}
               >
                 {display}
+                {isHoliday(date) && <Tooltip>{isHoliday(date)[1]}</Tooltip>}
               </TableCell>
             ))}
           </TableRow>

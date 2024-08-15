@@ -13,13 +13,14 @@ export interface DatePickerProps {
   onChange?: (date: Date | [Date, Date]) => void;
   format?: Format;
   showDayoffs?: boolean;
-  holidays?: Array<Date>;
+  holidays?: Array<[Date, string]>;
   weekBegin?: WeekBegin;
   range?: boolean;
   min?: string | Date;
   max?: string | Date;
   showHeader?: boolean;
   children?: React.ReactNode;
+  onCellDoubleClick?: (date: Date) => void;
 }
 
 const DatePicker = ({
@@ -33,6 +34,7 @@ const DatePicker = ({
   min = '01.01.100',
   max = '12.31.9999',
   showHeader = true,
+  onCellDoubleClick,
   children
 }: DatePickerProps) => {
   return (
@@ -48,7 +50,8 @@ const DatePicker = ({
           range,
           min,
           max,
-          showHeader
+          showHeader,
+          onCellDoubleClick
         }}
       >
         {showHeader && <DateHeader />}

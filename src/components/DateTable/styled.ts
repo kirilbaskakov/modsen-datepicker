@@ -62,11 +62,30 @@ const TableCellVariants = props => ({
     background: #2F80ED1A;
   `
 });
+
+export const Tooltip = styled.div`
+  visibility: hidden;
+  padding: 0.25rem 0.5rem;
+  font-size: 13px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 export const TableCell = styled(TableCellBase)<{
   $variant: keyof ReturnType<typeof TableCellVariants>;
   $isHoliday: boolean;
 }>`
   ${props => TableCellVariants(props)[props.$variant]}
+  position: relative;
+
+  &:hover .${Tooltip.styledComponentId} {
+    visibility: visible;
+  }
 `;
 
 export const TableBody = styled.tbody`

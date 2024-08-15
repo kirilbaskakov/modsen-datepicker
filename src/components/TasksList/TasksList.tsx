@@ -45,7 +45,7 @@ const TasksList = ({ date }: { date: string }) => {
           onChange={onChange}
         />
       ))}
-      <Button onClick={onClick}>+</Button>
+      <Button onClick={onClick}>Add task</Button>
     </Container>
   );
 };

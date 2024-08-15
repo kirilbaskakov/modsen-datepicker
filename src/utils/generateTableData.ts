@@ -64,6 +64,9 @@ const genYearData = (date: Date, min: Date, max: Date): TableCell[][] => {
   const dateCopy = new Date(date);
   dateCopy.setDate(1);
   dateCopy.setMonth(0);
+  while (dateCopy.getFullYear() % 12 != 0) {
+    dateCopy.setFullYear(dateCopy.getFullYear() - 1);
+  }
   const result: TableCell[][] = [];
   for (let row = 0; row < 3; row++) {
     result.push([]);

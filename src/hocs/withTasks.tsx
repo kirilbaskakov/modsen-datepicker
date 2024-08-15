@@ -5,11 +5,12 @@ import React, { useState } from 'react';
 const withTasks = (Datepicker: React.ElementType) => {
   return function WithTasks(props: DatePickerProps) {
     const [taskDate, setTaskDate] = useState(null);
-    const handleChange = (date: Date) => {
-      if (!props.range) {
-        setTaskDate(date);
-      }
-      if (props.onChange) props.onChange(date);
+
+    const onClose = () => setTaskDate(null);
+
+    const onDoubleClick = (date: Date) => {
+      setTaskDate(date);
+      if (props.onCellDoubleClick) props.onCellDoubleClick(date);
     };
 
     const dateOptions = {
@@ -27,9 +28,10 @@ const withTasks = (Datepicker: React.ElementType) => {
       }
     };
     return (
-      <Datepicker {...props} onChange={handleChange}>
+      <Datepicker {...props} onCellDoubleClick={onDoubleClick}>
         {taskDate && (
           <Tasks
+            onClose={onClose}
             date={taskDate.toLocaleDateString(
               'en-gb',
               dateOptions[props.format ?? 'day']

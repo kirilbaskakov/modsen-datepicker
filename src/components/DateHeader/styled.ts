@@ -23,9 +23,8 @@ export const Title = styled.h3<{ $isHoverable: boolean }>`
     background-color: #eee;
   }`}
 `;
-export const ArrowIcon = styled.img<{ $isVisible: boolean }>`
+export const ArrowIcon = styled.img`
   cursor: pointer;
-  visibility: ${props => (props.$isVisible ? 'visible' : 'hidden')};
 `;
 
 export const InnerDatepickerContainer = styled.div`

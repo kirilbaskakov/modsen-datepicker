@@ -1,4 +1,7 @@
-export const mockedHolidays = [new Date(1, 7, 12), new Date(1, 7, 15)];
+export const mockedHolidays: Array<[Date, string]> = [
+  [new Date(1, 7, 12), 'New Year'],
+  [new Date(1, 7, 15), 'Christmas']
+];
 
 export const monthes = [
   'Jan',

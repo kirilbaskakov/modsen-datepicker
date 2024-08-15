@@ -1,14 +1,18 @@
 import React from 'react';
-import { Subtitle, TasksStyled, Title } from './styled';
+import { Close, Overlay, Subtitle, TasksStyled, Title } from './styled';
 import TasksList from '../TasksList/TasksList';
 
-const Tasks = ({ date }: { date: string }) => {
+const Tasks = ({ date, onClose }: { date: string; onClose: () => void }) => {
   return (
-    <TasksStyled>
-      <Title>Tasks</Title>
-      <Subtitle>{date}</Subtitle>
-      <TasksList date={date} />
-    </TasksStyled>
+    <>
+      <Overlay onClick={onClose} />
+      <TasksStyled>
+        <Title>Tasks</Title>
+        <Subtitle>{date}</Subtitle>
+        <TasksList date={date} />
+        <Close onClick={onClose}>Close</Close>
+      </TasksStyled>
+    </>
   );
 };
 

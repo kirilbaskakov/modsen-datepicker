@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import DatePicker, { DatePickerProps } from '../DatePicker/DatePicker';
 import { ArrowIcon, Header, InnerDatepickerContainer, Title } from './styled';
 import addToDate from '@/utils/addToDate';
-import checkDate from '@/utils/checkDate';
 import displayDate from '@/utils/displayDate';
 import NextIcon from '@/assets/Next.svg';
 import PrevIcon from '@/assets/Prev.svg';
@@ -61,34 +60,17 @@ const DateHeader = () => {
   return (
     <>
       <Header>
-        <ArrowIcon
-          src={PrevIcon}
-          onClick={onPrev}
-          $isVisible={checkDate(
-            addToDate(date, -1, format),
-            minDate,
-            maxDate,
-            format
-          )}
-        />
+        <ArrowIcon src={PrevIcon} onClick={onPrev} />
         <Title onClick={onTitleClick} $isHoverable={format !== 'year'}>
           {dateDisplayed}
         </Title>
-        <ArrowIcon
-          src={NextIcon}
-          onClick={onNext}
-          $isVisible={checkDate(
-            addToDate(date, 1, format),
-            minDate,
-            maxDate,
-            format
-          )}
-        />
+        <ArrowIcon src={NextIcon} onClick={onNext} />
       </Header>
       {innerDatepicker.isOpen && (
         <InnerDatepickerContainer>
           <DatePicker
             {...innerDatepicker.props}
+            value={date}
             min={minDate}
             max={maxDate}
             onChange={onInnerChange}
