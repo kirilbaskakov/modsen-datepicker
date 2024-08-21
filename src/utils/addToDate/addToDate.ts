@@ -1,3 +1,4 @@
+import { YEARS_PER_PAGE } from '@/constants/table';
 import { Format } from '@/types/DatePicker';
 
 const addToDate = (date: Date, value: number, format: Format) => {
@@ -10,7 +11,7 @@ const addToDate = (date: Date, value: number, format: Format) => {
       dateCopy.setFullYear(dateCopy.getFullYear() + value);
       break;
     case 'year':
-      dateCopy.setFullYear(dateCopy.getFullYear() + 12 * value);
+      dateCopy.setFullYear(dateCopy.getFullYear() + YEARS_PER_PAGE * value);
       break;
   }
   return dateCopy;

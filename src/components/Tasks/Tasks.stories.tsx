@@ -1,5 +1,6 @@
-import Tasks from './Tasks';
 import React from 'react';
+
+import Tasks from './Tasks';
 
 export default {
   component: Tasks,

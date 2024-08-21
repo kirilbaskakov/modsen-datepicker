@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+
+import CalendarIcon from '@/assets/Calendar.svg';
+import DeleteIcon from '@/assets/delete.svg';
+import fromDateInput from '@/utils/fromDateInput/fromDateInput';
+import toDateInput from '@/utils/toDateInput/toDateInput';
+
+import DatePicker from '../DatePicker/DatePicker';
 import {
   ErrorText,
   Icon,
@@ -7,11 +14,6 @@ import {
   Label,
   Overlay
 } from './styled';
-import CalendarIcon from '@/assets/Calendar.svg';
-import DeleteIcon from '@/assets/delete.svg';
-import DatePicker from '../DatePicker/DatePicker';
-import toDateInput from '@/utils/toDateInput';
-import fromDateInput from '@/utils/fromDateInput';
 
 export interface DateInputProps {
   min?: Date | string;

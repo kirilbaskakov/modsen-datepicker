@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const useLocalStorage = <T>(
   key: string,
   initialValue: T,
-  mapValue?: (value: T) => any
+  mapValue?: (value: T) => unknown
 ): [T, (value: T) => void] => {
   const getFromLocalStorage = () => {
     try {

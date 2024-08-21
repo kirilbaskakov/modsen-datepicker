@@ -1,4 +1,5 @@
 import withTasks from '@/hocs/withTasks';
+
 import DatePicker from './DatePicker';
 
 export default {

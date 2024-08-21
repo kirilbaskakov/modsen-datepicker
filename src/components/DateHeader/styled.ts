@@ -1,28 +1,37 @@
 import styled from 'styled-components';
 
+import theme from '@/constants/theme';
+
+const HEADER_GAP = '0.25rem';
+
+const TITLE_PADDING = '0 0.75rem';
+const TITLE_LINE_HEIGHT = '2rem';
+const TITLE_RADIUIS = '8px';
+
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 0.25rem;
+  gap: ${HEADER_GAP};
   align-items: center;
 `;
 export const Title = styled.h3<{ $isHoverable: boolean }>`
-  padding: 0rem 0.75rem;
+  padding: ${TITLE_PADDING};
   margin: 0;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: ${theme.fs.m};
+  font-weight: ${theme.fw.bold};
   font-family: sans;
-  line-height: 2rem;
-  border-radius: 8px;
+  line-height: ${TITLE_LINE_HEIGHT};
+  border-radius: ${TITLE_RADIUIS};
 
   ${props =>
     props.$isHoverable &&
     `
-  cursor: pointer;
-  &:hover {
-    background-color: #eee;
-  }`}
+      cursor: pointer;
+      &:hover {
+        background-color: ${theme.colors.bgSecondary};
+      }`}
 `;
+
 export const ArrowIcon = styled.img`
   cursor: pointer;
 `;

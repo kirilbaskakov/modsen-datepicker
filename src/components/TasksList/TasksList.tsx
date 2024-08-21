@@ -1,8 +1,10 @@
 import React from 'react';
+
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { TaskType } from '@/types/Tasks';
+
 import Task from '../Task/Task';
 import { Button, Container } from './styled';
-import { TaskType } from '@/types/Tasks';
-import useLocalStorage from '@/hooks/useLocalStorage';
 
 const TasksList = ({ date }: { date: string }) => {
   const generateTask = () => ({

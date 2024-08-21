@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
-import EditIcon from '@/assets/edit.svg';
+
 import DeleteIcon from '@/assets/delete.svg';
-import { Checkbox, Container, Icon, Input } from './styled';
+import EditIcon from '@/assets/edit.svg';
 import { TaskType } from '@/types/Tasks';
+
+import { Checkbox, Container, Icon, Input } from './styled';
 
 interface TaskProps {
   task: TaskType;
@@ -34,13 +36,14 @@ const Task = ({ task, onChange, onDelete }: TaskProps) => {
         disabled={!task.title}
       />
       <Input
+        type="text"
         placeholder={'Your task...'}
         ref={inputRef}
         value={task.title}
         onChange={onInputChange}
       />
       <Icon src={EditIcon} onClick={onEdit} />
-      <Icon src={DeleteIcon} onClick={onDelete} />
+      <Icon src={DeleteIcon} onClick={onDelete} data-testid="icon-delete" />
     </Container>
   );
 };

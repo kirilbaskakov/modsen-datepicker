@@ -1,6 +1,7 @@
 import React from 'react';
-import { Close, Overlay, Subtitle, TasksStyled, Title } from './styled';
+
 import TasksList from '../TasksList/TasksList';
+import { Close, Overlay, Subtitle, TasksStyled, Title } from './styled';
 
 const Tasks = ({ date, onClose }: { date: string; onClose: () => void }) => {
   return (

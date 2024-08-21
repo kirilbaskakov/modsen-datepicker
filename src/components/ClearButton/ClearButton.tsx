@@ -1,5 +1,7 @@
-import { DatePickerContext } from '@/context/DatePickerProvider';
 import React, { useContext } from 'react';
+
+import { DatePickerContext } from '@/context/DatePickerProvider';
+
 import { Clear } from './styled';
 
 const ClearButton = () => {

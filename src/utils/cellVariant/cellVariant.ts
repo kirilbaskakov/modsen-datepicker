@@ -1,7 +1,7 @@
 const cellVariant = (
   date: Date,
-  selectedDate,
-  hoveredDate,
+  selectedDate: Date | [Date, Date],
+  hoveredDate: Date,
   isDisabled: boolean
 ) => {
   if (isDisabled) {

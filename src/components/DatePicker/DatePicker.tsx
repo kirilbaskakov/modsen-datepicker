@@ -1,12 +1,14 @@
 import React from 'react';
-import { DatePickerStyled } from './styled';
 
-import { Format, WeekBegin } from '@/types/DatePicker';
-import DateTable from '../DateTable/DateTable';
-import DateHeader from '../DateHeader/DateHeader';
-import DatePickerProvider from '@/context/DatePickerProvider';
-import ClearButton from '../ClearButton/ClearButton';
 import { mockedHolidays } from '@/constants/date';
+import DatePickerProvider from '@/context/DatePickerProvider';
+import { Format, WeekBegin } from '@/types/DatePicker';
+
+import ClearButton from '../ClearButton/ClearButton';
+import DateHeader from '../DateHeader/DateHeader';
+import DateTable from '../DateTable/DateTable';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { DatePickerStyled } from './styled';
 
 export interface DatePickerProps {
   value?: Date | [Date, Date];
@@ -39,26 +41,28 @@ const DatePicker = ({
 }: DatePickerProps) => {
   return (
     <DatePickerStyled>
-      <DatePickerProvider
-        datepickerProps={{
-          value,
-          onChange,
-          format,
-          weekBegin,
-          showDayoffs,
-          holidays,
-          range,
-          min,
-          max,
-          showHeader,
-          onCellDoubleClick
-        }}
-      >
-        {showHeader && <DateHeader />}
-        <DateTable />
-        {children}
-        <ClearButton />
-      </DatePickerProvider>
+      <ErrorBoundary>
+        <DatePickerProvider
+          datepickerProps={{
+            value,
+            onChange,
+            format,
+            weekBegin,
+            showDayoffs,
+            holidays,
+            range,
+            min,
+            max,
+            showHeader,
+            onCellDoubleClick
+          }}
+        >
+          {showHeader && <DateHeader />}
+          <DateTable />
+          {children}
+          <ClearButton />
+        </DatePickerProvider>
+      </ErrorBoundary>
     </DatePickerStyled>
   );
 };

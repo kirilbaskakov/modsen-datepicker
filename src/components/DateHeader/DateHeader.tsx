@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
-import DatePicker, { DatePickerProps } from '../DatePicker/DatePicker';
-import { ArrowIcon, Header, InnerDatepickerContainer, Title } from './styled';
-import addToDate from '@/utils/addToDate';
-import displayDate from '@/utils/displayDate';
+
 import NextIcon from '@/assets/Next.svg';
 import PrevIcon from '@/assets/Prev.svg';
 import { DatePickerContext } from '@/context/DatePickerProvider';
+import addToDate from '@/utils/addToDate/addToDate';
+import displayDate from '@/utils/displayDate/displayDate';
+
+import DatePicker, { DatePickerProps } from '../DatePicker/DatePicker';
+import { ArrowIcon, Header, InnerDatepickerContainer, Title } from './styled';
 
 const DateHeader = () => {
   const { format, date, setDate, min, max } = useContext(DatePickerContext);
@@ -60,11 +62,11 @@ const DateHeader = () => {
   return (
     <>
       <Header>
-        <ArrowIcon src={PrevIcon} onClick={onPrev} />
+        <ArrowIcon src={PrevIcon} onClick={onPrev} data-testid="icon-prev" />
         <Title onClick={onTitleClick} $isHoverable={format !== 'year'}>
           {dateDisplayed}
         </Title>
-        <ArrowIcon src={NextIcon} onClick={onNext} />
+        <ArrowIcon src={NextIcon} onClick={onNext} data-testid="icon-next" />
       </Header>
       {innerDatepicker.isOpen && (
         <InnerDatepickerContainer>

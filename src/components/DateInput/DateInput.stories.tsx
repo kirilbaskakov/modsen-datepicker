@@ -1,5 +1,6 @@
-import DateInput from './DateInput';
 import React from 'react';
+
+import DateInput from './DateInput';
 
 export default {
   component: DateInput,

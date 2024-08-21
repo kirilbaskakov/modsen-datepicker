@@ -1,4 +1,10 @@
 import React, { useContext, useMemo, useState } from 'react';
+
+import { DatePickerContext } from '@/context/DatePickerProvider';
+import cellVariant from '@/utils/cellVariant/cellVariant';
+import generateTableData from '@/utils/generateTableData/generateTableData';
+import generateWeekDays from '@/utils/generateWeekDays/generateWeekDays';
+
 import {
   Table,
   TableBody,
@@ -8,10 +14,6 @@ import {
   TableRow,
   Tooltip
 } from './styled';
-import generateWeekDays from '@/utils/generateWeekDays';
-import generateTableData from '@/utils/generateTableData';
-import { DatePickerContext } from '@/context/DatePickerProvider';
-import cellVariant from '@/utils/cellVariant';
 
 const DateTable = () => {
   const {

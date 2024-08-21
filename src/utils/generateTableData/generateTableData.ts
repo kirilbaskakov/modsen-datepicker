@@ -1,7 +1,9 @@
+import { monthes } from '@/constants/date';
+import { MONTHS_ROWS, YEARS_PER_PAGE, YEARS_ROWS } from '@/constants/table';
 import { Format, WeekBegin } from '@/types/DatePicker';
 import TableCell from '@/types/TableCell';
-import { monthes } from '@/constants/date';
-import compareDate from './compareDate';
+
+import compareDate from '../compareDate/compareDate';
 
 const genDayData = (
   date: Date,
@@ -45,9 +47,9 @@ const genMonthData = (date: Date, min: Date, max: Date): TableCell[][] => {
   dateCopy.setMonth(0);
   const result: TableCell[][] = [];
   let i = 0;
-  for (let row = 0; row < 3; row++) {
+  for (let row = 0; row < MONTHS_ROWS; row++) {
     result.push([]);
-    for (let col = 0; col < 4; col++) {
+    for (let col = 0; col < Math.floor(12 / MONTHS_ROWS); col++) {
       const isDisabled =
         compareDate(dateCopy, min, 'month') < 0 ||
         compareDate(dateCopy, max, 'month') > 0;
@@ -64,13 +66,13 @@ const genYearData = (date: Date, min: Date, max: Date): TableCell[][] => {
   const dateCopy = new Date(date);
   dateCopy.setDate(1);
   dateCopy.setMonth(0);
-  while (dateCopy.getFullYear() % 12 != 0) {
+  while (dateCopy.getFullYear() % YEARS_PER_PAGE != 0) {
     dateCopy.setFullYear(dateCopy.getFullYear() - 1);
   }
   const result: TableCell[][] = [];
-  for (let row = 0; row < 3; row++) {
+  for (let row = 0; row < YEARS_ROWS; row++) {
     result.push([]);
-    for (let col = 0; col < 4; col++) {
+    for (let col = 0; col < Math.floor(YEARS_PER_PAGE / YEARS_ROWS); col++) {
       const isDisabled =
         compareDate(dateCopy, min, 'year') < 0 ||
         compareDate(dateCopy, max, 'year') > 0;

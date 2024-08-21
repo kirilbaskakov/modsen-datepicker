@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
+
 import { DatePickerProps } from '../components/DatePicker/DatePicker';
 import Tasks from '../components/Tasks/Tasks';
-import React, { useState } from 'react';
 
 const withTasks = (Datepicker: React.ElementType) => {
   return function WithTasks(props: DatePickerProps) {
