@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 
 import DeleteIcon from '@/assets/delete.svg';
 import EditIcon from '@/assets/edit.svg';
@@ -19,11 +19,11 @@ const Task = ({ task, onChange, onDelete }: TaskProps) => {
     inputRef.current.focus();
   };
 
-  const onCheck = e => {
+  const onCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onChange({ ...task, done: e.target.checked });
   };
 
-  const onInputChange = e => {
+  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange({ ...task, title: e.target.value });
   };
 
@@ -32,7 +32,7 @@ const Task = ({ task, onChange, onDelete }: TaskProps) => {
       <Checkbox
         type="checkbox"
         checked={task.done}
-        onClick={onCheck}
+        onChange={onCheck}
         disabled={!task.title}
       />
       <Input
@@ -42,8 +42,14 @@ const Task = ({ task, onChange, onDelete }: TaskProps) => {
         value={task.title}
         onChange={onInputChange}
       />
-      <Icon src={EditIcon} onClick={onEdit} />
-      <Icon src={DeleteIcon} onClick={onDelete} data-testid="icon-delete" />
+      <Icon src={EditIcon} onClick={onEdit} alt="Edit task" title="Edit task" />
+      <Icon
+        src={DeleteIcon}
+        onClick={onDelete}
+        data-testid="icon-delete"
+        alt="Delete task"
+        title="Delete task"
+      />
     </Container>
   );
 };

@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import theme from '@/constants/theme';
-
 const HEADER_GAP = '0.25rem';
 
 const TITLE_PADDING = '0 0.75rem';
@@ -17,8 +15,8 @@ export const Header = styled.div`
 export const Title = styled.h3<{ $isHoverable: boolean }>`
   padding: ${TITLE_PADDING};
   margin: 0;
-  font-size: ${theme.fs.m};
-  font-weight: ${theme.fw.bold};
+  font-size: ${props => props.theme.fs.m};
+  font-weight: ${props => props.theme.fw.bold};
   font-family: sans;
   line-height: ${TITLE_LINE_HEIGHT};
   border-radius: ${TITLE_RADIUIS};
@@ -28,7 +26,7 @@ export const Title = styled.h3<{ $isHoverable: boolean }>`
     `
       cursor: pointer;
       &:hover {
-        background-color: ${theme.colors.bgSecondary};
+        background-color: ${props => props.theme.colors.bgSecondary};
       }`}
 `;
 

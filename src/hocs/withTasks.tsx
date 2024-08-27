@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-import { DatePickerProps } from '../components/DatePicker/DatePicker';
+import { CalendarProps } from '@/types/DatePicker';
+
 import Tasks from '../components/Tasks/Tasks';
 
-const withTasks = (Datepicker: React.ElementType) => {
-  return function WithTasks(props: DatePickerProps) {
+const withTasks = (Datepicker: React.ElementType<CalendarProps>) => {
+  return function WithTasks(props: CalendarProps) {
     const [taskDate, setTaskDate] = useState(null);
 
     const onClose = () => setTaskDate(null);
@@ -39,6 +40,7 @@ const withTasks = (Datepicker: React.ElementType) => {
             )}
           />
         )}
+        {props.children ?? null}
       </Datepicker>
     );
   };

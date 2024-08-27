@@ -1,7 +1,7 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 
-import { DatePickerContext } from '@/context/DatePickerProvider';
-import cellVariant from '@/utils/cellVariant/cellVariant';
+import { DatePickerContext } from '@/context/datePicker';
+import { CellVariant } from '@/types/DatePicker';
 import generateTableData from '@/utils/generateTableData/generateTableData';
 import generateWeekDays from '@/utils/generateWeekDays/generateWeekDays';
 
@@ -11,68 +11,62 @@ import {
   TableCell,
   TableHeader,
   TableHeaderCell,
-  TableRow,
-  Tooltip
+  TableRow
 } from './styled';
 
 const DateTable = () => {
   const {
     min,
     max,
-    selectedDate,
-    setSelectedDate,
-    onChange,
-    range,
     date,
     format,
     weekBegin,
     showDayoffs,
-    holidays,
-    onCellDoubleClick
+    onCellClick,
+    onCellHover,
+    onCellDoubleClick,
+    getCellVariant
   } = useContext(DatePickerContext);
+
   const minDate = new Date(min);
   const maxDate = new Date(max);
-  const [hoveredDate, setHoveredDate] = useState(null);
 
-  const isHoliday = (date: Date): undefined | [Date, string] =>
-    holidays.find(
-      ([holidayDate]) =>
-        holidayDate.toLocaleDateString([], {
-          month: 'numeric',
-          day: 'numeric'
-        }) ===
-        date.toLocaleDateString([], {
-          month: 'numeric',
-          day: 'numeric'
-        })
-    );
-  const onMouseEnter = (date: Date) => () => setHoveredDate(date);
+  const onMouseEnter = (date: Date) => () => onCellHover && onCellHover(date);
 
   const onDoubleClick = (date: Date) => () => {
     if (onCellDoubleClick) onCellDoubleClick(date);
   };
-  const onCellClick = (date: Date) => () => {
-    if (range) {
-      if (selectedDate[0] && !selectedDate[1]) {
-        if (onChange) onChange([selectedDate[0], date]);
-        return setSelectedDate([selectedDate[0], date]);
-      }
-      setSelectedDate([date, null]);
-      return;
-    }
-    setSelectedDate(date);
-    if (!range && onChange) {
-      onChange(date);
+  const onClick = (date: Date) => () => {
+    if (onCellClick) {
+      onCellClick(date);
     }
   };
 
-  const onMouseLeave = () => setHoveredDate(null);
+  const onMouseLeave = () => onCellHover && onCellHover(null);
 
   const tableData = useMemo(
     () =>
       generateTableData(date, format, weekBegin, showDayoffs, minDate, maxDate),
     [date, format, weekBegin, showDayoffs, min, max]
   );
+
+  const renderCell = ({ date, display, isDisabled }) => {
+    let variant: CellVariant = isDisabled ? 'disabled' : 'primary';
+    if (getCellVariant) {
+      variant = getCellVariant(date, variant);
+    }
+    return (
+      <TableCell
+        key={display}
+        $variant={variant}
+        onClick={isDisabled ? null : onClick(date)}
+        onDoubleClick={onDoubleClick(date)}
+        onMouseEnter={onMouseEnter(date)}
+      >
+        {display}
+      </TableCell>
+    );
+  };
 
   return (
     <Table onMouseLeave={onMouseLeave}>
@@ -85,26 +79,7 @@ const DateTable = () => {
       )}
       <TableBody>
         {tableData.map((week, index) => (
-          <TableRow key={index}>
-            {week.map(({ date, isDisabled, display }) => (
-              <TableCell
-                key={display}
-                $variant={cellVariant(
-                  date,
-                  selectedDate,
-                  hoveredDate,
-                  isDisabled
-                )}
-                $isHoliday={Boolean(isHoliday(date))}
-                onClick={onCellClick(date)}
-                onDoubleClick={onDoubleClick(date)}
-                onMouseEnter={onMouseEnter(date)}
-              >
-                {display}
-                {isHoliday(date) && <Tooltip>{isHoliday(date)[1]}</Tooltip>}
-              </TableCell>
-            ))}
-          </TableRow>
+          <TableRow key={index}>{week.map(renderCell)}</TableRow>
         ))}
       </TableBody>
     </Table>

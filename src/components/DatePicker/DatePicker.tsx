@@ -1,70 +1,32 @@
 import React from 'react';
 
-import { mockedHolidays } from '@/constants/date';
-import DatePickerProvider from '@/context/DatePickerProvider';
-import { Format, WeekBegin } from '@/types/DatePicker';
+import { withHolidays, withPicker, withRangePicker,withTasks } from '@/hocs';
+import { DatePickerProps } from '@/types/DatePicker';
 
-import ClearButton from '../ClearButton/ClearButton';
-import DateHeader from '../DateHeader/DateHeader';
-import DateTable from '../DateTable/DateTable';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { DatePickerStyled } from './styled';
-
-export interface DatePickerProps {
-  value?: Date | [Date, Date];
-  onChange?: (date: Date | [Date, Date]) => void;
-  format?: Format;
-  showDayoffs?: boolean;
-  holidays?: Array<[Date, string]>;
-  weekBegin?: WeekBegin;
-  range?: boolean;
-  min?: string | Date;
-  max?: string | Date;
-  showHeader?: boolean;
-  children?: React.ReactNode;
-  onCellDoubleClick?: (date: Date) => void;
-}
+import Calendar from '../Calendar/Calendar';
 
 const DatePicker = ({
+  tasks,
+  holidays,
+  select,
   value,
   onChange,
-  format = 'day',
-  weekBegin = 'monday',
-  showDayoffs = true,
-  holidays = mockedHolidays,
-  range = false,
-  min = '01.01.100',
-  max = '12.31.9999',
-  showHeader = true,
-  onCellDoubleClick,
-  children
+  ...props
 }: DatePickerProps) => {
-  return (
-    <DatePickerStyled>
-      <ErrorBoundary>
-        <DatePickerProvider
-          datepickerProps={{
-            value,
-            onChange,
-            format,
-            weekBegin,
-            showDayoffs,
-            holidays,
-            range,
-            min,
-            max,
-            showHeader,
-            onCellDoubleClick
-          }}
-        >
-          {showHeader && <DateHeader />}
-          <DateTable />
-          {children}
-          <ClearButton />
-        </DatePickerProvider>
-      </ErrorBoundary>
-    </DatePickerStyled>
-  );
+  let WrappedCalendar = Calendar;
+  if (tasks) {
+    WrappedCalendar = withTasks(WrappedCalendar);
+  }
+  if (holidays) {
+    WrappedCalendar = withHolidays(WrappedCalendar, holidays);
+  }
+  if (select === 'date') {
+    WrappedCalendar = withPicker(WrappedCalendar, onChange, value);
+  }
+  if (select === 'range') {
+    WrappedCalendar = withRangePicker(WrappedCalendar, onChange, value);
+  }
+  return <WrappedCalendar {...props} />;
 };
 
 export default DatePicker;

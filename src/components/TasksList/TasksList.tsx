@@ -6,19 +6,19 @@ import { TaskType } from '@/types/Tasks';
 import Task from '../Task/Task';
 import { Button, Container } from './styled';
 
+const generateTask = () => ({
+  id: new Date().getTime(),
+  title: '',
+  done: false
+});
+
+const mapTasks = (tasks: Array<TaskType>) => {
+  const filteredTasks = tasks.filter(task => task.title);
+  if (!filteredTasks.length) return null;
+  return tasks.filter(task => task.title);
+};
+
 const TasksList = ({ date }: { date: string }) => {
-  const generateTask = () => ({
-    id: new Date().getTime(),
-    title: '',
-    done: false
-  });
-
-  const mapTasks = (tasks: Array<TaskType>) => {
-    const filteredTasks = tasks.filter(task => task.title);
-    if (!filteredTasks.length) return null;
-    return tasks.filter(task => task.title);
-  };
-
   const [tasks, setTasks] = useLocalStorage<Array<TaskType>>(
     'tasks' + date,
     [generateTask()],
@@ -37,6 +37,7 @@ const TasksList = ({ date }: { date: string }) => {
     }
     setTasks(tasks.filter(item => item.id != task.id));
   };
+
   return (
     <Container>
       {tasks.map(task => (

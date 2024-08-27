@@ -1,9 +1,7 @@
-import withTasks from '@/hocs/withTasks';
-
 import DatePicker from './DatePicker';
 
 export default {
-  component: withTasks(DatePicker),
+  component: DatePicker,
   title: 'Datepicker',
   tags: ['autodocs'],
   argTypes: {
@@ -19,28 +17,36 @@ export default {
     }
   },
   args: {
+    format: 'day',
     min: '01.01.2023',
     max: '12.01.2025',
-    range: false,
     showDayoffs: true,
     weekBegin: 'monday'
   }
 };
 
-export const Default = {
+export const Default = {};
+
+export const WithTasks = {
   args: {
-    format: 'day'
+    tasks: true
   }
 };
 
-export const Monthes = {
+export const WithPicker = {
   args: {
-    format: 'month'
+    select: 'date'
   }
 };
 
-export const Years = {
+export const WithRangePicker = {
   args: {
-    format: 'year'
+    select: 'range'
+  }
+};
+
+export const WithHolidays = {
+  args: {
+    holidays: 'default'
   }
 };

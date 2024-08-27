@@ -1,4 +1,7 @@
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
+
+import theme from '@/constants/theme';
 
 import Tasks from './Tasks';
 
@@ -9,7 +12,9 @@ export default {
   decorators: [
     Story => (
       <div style={{ maxWidth: '300px' }}>
-        <Story />
+        <ThemeProvider theme={theme}>
+          <Story />
+        </ThemeProvider>
       </div>
     )
   ]
