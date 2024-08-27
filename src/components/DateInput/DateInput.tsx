@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-import CalendarIcon from '@/assets/Calendar.svg';
+import CalendarIcon from '@/assets/calendar.svg';
 import DeleteIcon from '@/assets/delete.svg';
+import theme from '@/constants/theme';
+import { DateInputProps } from '@/types/DatePicker';
 import fromDateInput from '@/utils/fromDateInput/fromDateInput';
 import toDateInput from '@/utils/toDateInput/toDateInput';
 
@@ -15,26 +18,22 @@ import {
   Overlay
 } from './styled';
 
-export interface DateInputProps {
-  min?: Date | string;
-  max?: Date | string;
-  range?: boolean;
-}
-
 const DateInput = ({
   min = '01.01.100',
   max = '12.31.9999',
   range = false
 }: DateInputProps) => {
-  const minDate = new Date(min);
-  const maxDate = new Date(max);
   const [date, setDate] = useState<string | [string, string]>(
     range ? '' : ['', '']
   );
+  const [isOpen, setIsOpen] = useState(false);
+
+  const minDate = new Date(min);
+  const maxDate = new Date(max);
+
   const datepickerValue: Date | [Date, Date] = range
     ? [fromDateInput(date[0]), fromDateInput(date[1])]
     : fromDateInput(date as string);
-  const [isOpen, setIsOpen] = useState(false);
 
   const checkDate = (date: string): boolean => {
     const d = fromDateInput(date);
@@ -57,12 +56,12 @@ const DateInput = ({
     setDate(newDate);
   };
 
-  const onDateChange = (newDate: Date) => {
+  const onDateChange = (newDate: Date | [Date, Date]) => {
     if (!range) {
       if (!newDate) {
         return setDate('');
       }
-      return setDate(toDateInput(newDate));
+      return setDate(toDateInput(newDate as Date));
     }
     if (!newDate[0]) {
       return setDate(['', '']);
@@ -70,13 +69,27 @@ const DateInput = ({
     setDate([toDateInput(newDate[0]), toDateInput(newDate[1])]);
   };
 
+  const getDate = () => {
+    if (Array.isArray(date)) {
+      return fromDateInput(date[0]) ?? new Date();
+    }
+    return fromDateInput(date) ?? new Date();
+  };
+
+  const onOverlayClick = () => setIsOpen(false);
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       {range ? (
         <>
           <Label>From</Label>
           <InputContainer $isError={!checkDate(date[0])}>
-            <Icon src={CalendarIcon} onClick={onClick} />
+            <Icon
+              src={CalendarIcon}
+              onClick={onClick}
+              alt="Calendar"
+              title="Open calendar"
+            />
             <InputStyled
               type="date"
               min={toDateInput(minDate)}
@@ -84,7 +97,12 @@ const DateInput = ({
               value={date[0]}
               onChange={onChange(0)}
             />
-            <Icon src={DeleteIcon} onClick={onClear} />
+            <Icon
+              src={DeleteIcon}
+              onClick={onClear}
+              alt="Clear"
+              title="Clear"
+            />
           </InputContainer>
           <Label>To</Label>
           <InputContainer $isError={!checkDate(date[1])}>
@@ -127,17 +145,31 @@ const DateInput = ({
       </ErrorText>
       {isOpen && (
         <>
-          <Overlay onClick={() => setIsOpen(false)} />
-          <DatePicker
-            onChange={onDateChange}
-            value={datepickerValue}
-            min={min}
-            max={max}
-            range={range}
-          />
+          <Overlay onClick={onOverlayClick} />
+          {range ? (
+            <DatePicker
+              date={getDate()}
+              onChange={
+                onDateChange as (date: [Date, Date] | [null, null]) => void
+              }
+              value={datepickerValue as [Date, Date]}
+              min={min}
+              max={max}
+              select="range"
+            />
+          ) : (
+            <DatePicker
+              date={getDate()}
+              onChange={onDateChange as (date: Date | null) => void}
+              value={datepickerValue as Date}
+              min={min}
+              max={max}
+              select="date"
+            />
+          )}
         </>
       )}
-    </>
+    </ThemeProvider>
   );
 };
 

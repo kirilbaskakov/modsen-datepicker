@@ -1,0 +1,16 @@
+node_modules
+.husky
+cypress
+.storybook
+
+**/*.test.ts
+
+package-lock.json
+
+eslint.config.mjs
+.prettierrc
+.babelrc
+webpack.config.ts
+cypress.config.ts
+rollup.config.ts
+babel.config.json

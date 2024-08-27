@@ -12,9 +12,10 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
+    "paths": { "@/*": ["src/*"] },
+    "sourceMap": false
     },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "./@types/custom.d.ts"],
   "exclude": [
     "node_modules",
     "dist"

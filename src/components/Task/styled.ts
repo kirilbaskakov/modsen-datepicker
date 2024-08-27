@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import theme from '@/constants/theme';
-
 const CONTAINER_GAP = '0.5rem';
 const CONTAINER_PADDING = '0.25rem 0';
 
@@ -27,13 +25,13 @@ export const Checkbox = styled.input`
 `;
 
 export const Input = styled.input`
-  font-size: ${theme.fs.m};
+  font-size: ${props => props.theme.fs.m};
   padding: ${INPUT_PADDING};
   border: none;
   border-radius: ${INPUT_RADIUS};
   flex: 1;
   &:focus {
-    outline: ${INPUT_OUTLINE_WIDTH} solid ${theme.colors.border};
+    outline: ${INPUT_OUTLINE_WIDTH} solid ${props => props.theme.colors.border};
   }
 `;
 

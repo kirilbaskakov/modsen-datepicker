@@ -2,27 +2,29 @@ import React, { useContext, useState } from 'react';
 
 import NextIcon from '@/assets/Next.svg';
 import PrevIcon from '@/assets/Prev.svg';
-import { DatePickerContext } from '@/context/DatePickerProvider';
+import { DatePickerContext } from '@/context/datePicker';
+import { CalendarProps } from '@/types/DatePicker';
 import addToDate from '@/utils/addToDate/addToDate';
 import displayDate from '@/utils/displayDate/displayDate';
 
-import DatePicker, { DatePickerProps } from '../DatePicker/DatePicker';
+import DatePicker from '../Calendar/Calendar';
 import { ArrowIcon, Header, InnerDatepickerContainer, Title } from './styled';
 
 const DateHeader = () => {
   const { format, date, setDate, min, max } = useContext(DatePickerContext);
-  const minDate = new Date(min);
-  const maxDate = new Date(max);
   const [innerDatepicker, setInnerDatepicker] = useState<{
     isOpen: boolean;
-    props: DatePickerProps;
+    props: CalendarProps;
   }>({ isOpen: false, props: { format: 'year' } });
+
+  const minDate = new Date(min);
+  const maxDate = new Date(max);
 
   const dateDisplayed = displayDate(date, format);
 
-  const onPrev = () => setDate(date => addToDate(date, -1, format));
+  const onPrev = () => setDate((date: Date) => addToDate(date, -1, format));
 
-  const onNext = () => setDate(date => addToDate(date, 1, format));
+  const onNext = () => setDate((date: Date) => addToDate(date, 1, format));
 
   const onTitleClick = () =>
     format !== 'year' &&
@@ -31,7 +33,7 @@ const DateHeader = () => {
       props: { format: 'year' }
     }));
 
-  const onInnerChange = (newDate: Date) => {
+  const onInnerClick = (newDate: Date) => {
     const dateCopy = new Date(date);
     switch (innerDatepicker.props.format) {
       case 'year':
@@ -62,20 +64,31 @@ const DateHeader = () => {
   return (
     <>
       <Header>
-        <ArrowIcon src={PrevIcon} onClick={onPrev} data-testid="icon-prev" />
+        <ArrowIcon
+          src={PrevIcon}
+          onClick={onPrev}
+          data-testid="icon-prev"
+          alt="Previous page"
+          title="Previous page"
+        />
         <Title onClick={onTitleClick} $isHoverable={format !== 'year'}>
           {dateDisplayed}
         </Title>
-        <ArrowIcon src={NextIcon} onClick={onNext} data-testid="icon-next" />
+        <ArrowIcon
+          src={NextIcon}
+          onClick={onNext}
+          data-testid="icon-next"
+          alt="Next page"
+          title="Next page"
+        />
       </Header>
       {innerDatepicker.isOpen && (
         <InnerDatepickerContainer>
           <DatePicker
             {...innerDatepicker.props}
-            value={date}
             min={minDate}
             max={maxDate}
-            onChange={onInnerChange}
+            onCellClick={onInnerClick}
           />
         </InnerDatepickerContainer>
       )}

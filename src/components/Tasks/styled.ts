@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import theme from '@/constants/theme';
-
 const TASKS_RADIUS = '8px';
 const TASKS_PADDING = '0.75rem 0.5rem';
 const TASKS_SHADOW = '1px 2px 6px rgba(0, 0, 0, 0.4)';
@@ -18,7 +16,7 @@ const CLOSE_RADIUS = '5px';
 
 export const TasksStyled = styled.div`
   font-family: sans;
-  background-color: ${theme.colors.bgSecondary};
+  background-color: ${props => props.theme.colors.bgSecondary};
   border-radius: ${TASKS_RADIUS};
   padding: ${TASKS_PADDING};
   position: fixed;
@@ -35,7 +33,7 @@ export const Overlay = styled.div`
   height: 100vh;
   left: 0;
   top: 0;
-  background-color: ${theme.colors.overlay};
+  background-color: ${props => props.theme.colors.overlay};
   z-index: ${OVERLAY_Z};
 `;
 
@@ -43,18 +41,18 @@ export const Title = styled.h1`
   padding: 0;
   margin: 0;
   text-align: center;
-  font-size: ${theme.fs.xl};
-  font-weight: ${theme.fw.bold};
-  color: ${theme.colors.primary};
+  font-size: ${props => props.theme.fs.xl};
+  font-weight: ${props => props.theme.fw.bold};
+  color: ${props => props.theme.colors.primary};
 `;
 
 export const Subtitle = styled.h3`
   padding: 0;
   margin: 0;
   text-align: center;
-  font-size: ${theme.fs.l};
-  color: ${theme.colors.secondary};
-  font-weight: ${theme.fw.light};
+  font-size: ${props => props.theme.fs.l};
+  color: ${props => props.theme.colors.secondary};
+  font-weight: ${props => props.theme.fw.light};
   line-height: ${SUBTITLE_LINE_HEIGHT};
 `;
 
@@ -63,8 +61,8 @@ export const Close = styled.button`
   cursor: pointer;
   margin: 0 auto;
   margin-top: ${CLOSE_MARGIN_TOP};
-  font-size: ${theme.fs.m};
+  font-size: ${props => props.theme.fs.m};
   padding: ${CLOSE_PADDING};
-  border: ${CLOSE_BORDER_WIDTH} solid ${theme.colors.border};
+  border: ${CLOSE_BORDER_WIDTH} solid ${props => props.theme.colors.border};
   border-radius: ${CLOSE_RADIUS};
 `;
